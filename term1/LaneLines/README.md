@@ -31,16 +31,12 @@ The goals / steps of this project are the following:
 My pipeline consisted of 5 steps as follows.
 1. Converted the images to grayscale.
 ![step1][img-step1]
-
 2. Applied gaussian blur to the grayscale images to reduce noises.
 ![step2][img-step2]
-
 3. Detected edges by Canny method from smoothed grayscale images.
 ![step3][img-step3]
-
 4. Applied shape mask with trapezoid shape to edge images.
 ![step4][img-step4]
-
 5. Transformed by Hough method from masked edge images to lines.
 ![step5][img-step5]
 
