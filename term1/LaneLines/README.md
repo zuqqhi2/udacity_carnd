@@ -29,7 +29,7 @@ The goals / steps of this project are the following:
 ### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
 My pipeline consisted of 5 steps as follows.
-1. Converted the images to grayscale.
+1. Converted the images to grayscale images for edge detection.
 ![step1][img-step1]
 2. Applied gaussian blur to the grayscale images to reduce noises.
 ![step2][img-step2]
