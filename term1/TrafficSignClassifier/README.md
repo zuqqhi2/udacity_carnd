@@ -158,18 +158,6 @@ Complex network is easy to do overfitting, so I tried to add dropout to avoid it
 After adding layer, channels and dropout, I could achieve the target accuracy with only tuning epoch.
 Why I increase epoch is that new net is more complex than first model and it need more time to converge.
 
-
-70km = 4
-30km = 1
-50km = 2
-Stop = 14
-No Entry = 17
-Aller Art = 15
-120km = 8
-路面凹凸あり = 22 uneven road
-前方優先道路 = 13
-信号機あり = 26
-通過支持　= 39
 ### Test a Model on New Images
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
