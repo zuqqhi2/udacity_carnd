@@ -22,6 +22,7 @@ The goals / steps of this project are the following:
 [train-r1]: ./images/normal-recover1.png "Going Over The Side Lane"
 [train-r2]: ./images/normal-recover2.png "Recovery"
 [train-r3]: ./images/normal-recover3.png "Back To Center"
+[learn-1]: ./images/learning_curve.png "Learning Curve"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -108,18 +109,18 @@ The final model architecture (model.py lines 67-83) consisted of the following l
 | Convolution 3x3   | Output channel 64       	                       |
 | RELU					    |												                           |
 | Flatten       		|         								                         |
-| Fully connected		| outputs 150       				        					     |
-| Dropout				    |	Probability 20%									                 |
-| Fully connected		| outputs 90               									       |
-| Dropout				    | Probability 20%							                     |
-| Fully connected		| outputs 43                									     |
-| Dropout				    | Probability 20%							                     |
+| Fully connected		| outputs 100       				        					     |
+| Dropout				    |	Probability 30%									                 |
+| Fully connected		| outputs 50               									       |
+| Dropout				    | Probability 30%							                     |
+| Fully connected		| outputs 10                									     |
+| Dropout				    | Probability 30%							                     |
 | Fully connected		| outputs 1                									       |
 
 
 #### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+To capture good driving behavior, I first recorded two laps on track one using center lane driving. After that I also recorded two laps on track but backward. Here is an example image of center lane driving:
 
 ![Center Lane Driving][train-c1]
 
@@ -136,4 +137,7 @@ After the collection process, I had X number of data points. I then preprocessed
 
 I finally randomly shuffled the data set and put 20% of the data into a validation set.
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. I used 5 as epoch. I tried from 2 to 10. Then highest performance one was 5 epoch in my trials. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. I used 3 as epoch. I tried from 2 to 10. Then highest performance one was 3 epoch in my trials. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+
+Here is learning curve.
+![Learning Curve][learn-1]

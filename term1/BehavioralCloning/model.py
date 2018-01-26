@@ -6,11 +6,12 @@ mpl.use('Agg')
 import matplotlib.pyplot as plt
 from keras.models import Sequential, Model
 from keras.layers import Flatten, Dense, Dropout, Lambda, Cropping2D, Activation, Convolution2D
+from keras.regularizers import l2
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 
 ### Get training and validation generator
-def generator(samples, batch_size = 32, base_dir = './data', correction = 0.2):
+def generator(samples, batch_size = 16, base_dir = './data', correction = 0.2):
   num_samples = len(samples)
   while 1: # Loop forever so the generator never terminates
     shuffle(samples)
@@ -23,7 +24,7 @@ def generator(samples, batch_size = 32, base_dir = './data', correction = 0.2):
         # Load camera images
         for camera_id in range(3): # 0 is center, 1 is left, 2 is right
           fname = '%s/IMG/%s' % (base_dir, batch_sample[camera_id].split('/')[-1])
-          img = cv2.imread(fname)
+          img = cv2.cvtColor(cv2.imread(fname), cv2.COLOR_BGR2RGB)
           images.append(img)
 
         # Load steering data
@@ -63,22 +64,22 @@ def get_train_generators(base_dir = './data'):
 
 
 ### Build network (NVIDIA Architecture)
-def build_network():
+def build_network(l2_lambda=0.001):
   model = Sequential()
-  model.add(Lambda(lambda x: x /127.5 - 1., input_shape = (160, 320, 3)))
+  model.add(Lambda(lambda x: x / 127.5 - 1., input_shape = (160, 320, 3)))
   model.add(Cropping2D(cropping = ((70, 25), (0, 0))))
-  model.add(Convolution2D(24, 5, 5, subsample = (2, 2), activation = 'relu'))
-  model.add(Convolution2D(36, 5, 5, subsample = (2, 2), activation = 'relu'))
-  model.add(Convolution2D(48, 5, 5, subsample = (2, 2), activation = 'relu'))
-  model.add(Convolution2D(64, 3, 3, activation = 'relu'))
-  model.add(Convolution2D(64, 3, 3, activation = 'relu'))
+  model.add(Convolution2D(24, 5, 5, subsample = (2, 2), border_mode='valid', activation = 'relu'))
+  model.add(Convolution2D(36, 5, 5, subsample = (2, 2), border_mode='valid', activation = 'relu'))
+  model.add(Convolution2D(48, 5, 5, subsample = (2, 2), border_mode='valid', activation = 'relu'))
+  model.add(Convolution2D(64, 3, 3, border_mode='valid', activation = 'relu'))
+  model.add(Convolution2D(64, 3, 3, border_mode='valid', activation = 'relu'))
   model.add(Flatten())
-  model.add(Dense(150))
-  model.add(Dropout(0.2))
-  model.add(Dense(90))
-  model.add(Dropout(0.2))
-  model.add(Dense(40))
-  model.add(Dropout(0.2))
+  model.add(Dense(100))
+  model.add(Dropout(0.3))
+  model.add(Dense(50))
+  model.add(Dropout(0.3))
+  model.add(Dense(10))
+  model.add(Dropout(0.3))
   model.add(Dense(1))
   model.compile(loss = 'mse', optimizer ='adam')
 
@@ -92,7 +93,7 @@ def train(model, train_samples, train_generator, validation_samples, validation_
     samples_per_epoch = len(train_samples),
     validation_data = validation_generator,
     nb_val_samples = len(validation_samples), 
-    nb_epoch = 5, verbose = 1)
+    nb_epoch = 3, verbose = 1)
 
   # Take a snapshot of the trained model
   model.save('model.h5')
