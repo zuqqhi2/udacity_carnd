@@ -133,7 +133,7 @@ I then recorded the vehicle recovering from the left side and right sides of the
 To augment the data sat, I also flipped images and angles thinking that this would adding more data to the dataset and reduce data difference between left and right corner and recovery data volume and quality.
 
 
-After the collection process, I had X number of data points. I then preprocessed this data by normalizing.
+After the collection process, I had 7,806 number of data points. I then preprocessed this data by normalizing.
 
 I finally randomly shuffled the data set and put 20% of the data into a validation set.
 

@@ -40,7 +40,7 @@ def generator(samples, batch_size = 16, base_dir = './data', correction = 0.2):
           aug_images.append(cv2.flip(img, 1))
           aug_angles.append(angle)
           aug_angles.append(angle * -1.0)
- 
+
         # trim image to only see section with road
         X_train = np.array(aug_images)
         y_train = np.array(aug_angles)
@@ -66,8 +66,8 @@ def get_train_generators(base_dir = './data'):
 ### Build network (NVIDIA Architecture)
 def build_network(l2_lambda=0.001):
   model = Sequential()
-  model.add(Lambda(lambda x: x / 127.5 - 1., input_shape = (160, 320, 3)))
   model.add(Cropping2D(cropping = ((70, 25), (0, 0))))
+  model.add(Lambda(lambda x: x / 127.5 - 1., input_shape = (160, 320, 3)))
   model.add(Convolution2D(24, 5, 5, subsample = (2, 2), border_mode='valid', activation = 'relu'))
   model.add(Convolution2D(36, 5, 5, subsample = (2, 2), border_mode='valid', activation = 'relu'))
   model.add(Convolution2D(48, 5, 5, subsample = (2, 2), border_mode='valid', activation = 'relu'))
@@ -92,12 +92,12 @@ def train(model, train_samples, train_generator, validation_samples, validation_
     train_generator,
     samples_per_epoch = len(train_samples),
     validation_data = validation_generator,
-    nb_val_samples = len(validation_samples), 
+    nb_val_samples = len(validation_samples),
     nb_epoch = 3, verbose = 1)
 
   # Take a snapshot of the trained model
   model.save('model.h5')
-  
+
   # plot the training and validation loss for each epoch
   plt.plot(history_object.history['loss'])
   plt.plot(history_object.history['val_loss'])
