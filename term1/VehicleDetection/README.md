@@ -106,7 +106,7 @@ Here's a [link to my video result](./output_images/project_video_result.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I searched windows in each frame of the video and get positive detections from my classifier. Then I created a heatmap and find correct vehicle positions with a certain threshold. I used `scipy.ndimage.measurements.label()` to identify vehicle positions in the heatmap. I generated bounding boxes to cover the vehicle positions.
+I searched windows in each frame of the video and get positive detections from my classifier. Then I created a heatmap and find correct vehicle positions with a certain threshold. I used `scipy.ndimage.measurements.label()` to identify vehicle positions in the heatmap. After that I generated bounding boxes to cover the vehicle positions. To improve robustness I use some old frame's heatmaps.
 
 Here's an example result showing the heatmap, the result of `scipy.ndimage.measurements.label()` and the bounding boxes:
 
@@ -133,4 +133,4 @@ Here's an example result showing the heatmap, the result of `scipy.ndimage.measu
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-My pipeline's robustness is not high because like bounding box size is not stable for same vehicle and there are still some false positives. To improve robustness a function to do a kind of interpolation from not only 1 frame but also old and new frames. The function can use previous and future frame detection result to compensate a loss and fix box sizes.
+My pipeline's robustness is not high because like bounding box size is not stable for same vehicle and there are still some false positives. To improve robustness I think I can use a kind of model of vehicle and its movement. Current approach is only find vehicles from scratch for each frame basically. I should be able to estimate vehicle's next frame's position after finding vehicle and its speed. And vehicle's size should not be changed without perspective, so I should be able to estimate size change as well. I think combination of current approach and tracking with vehicle's move and size model should be more robust.  
